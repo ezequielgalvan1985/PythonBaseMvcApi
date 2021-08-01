@@ -1,8 +1,26 @@
-
+--
+--
+--
 source ../venv/bin/activate
 python manage.py runserver 0.0.0.0:8000
 
+
 192.168.0.167
+
+
+--
+-- comit repo
+--
+
+echo "# prueba1" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/ezgatrabajo/prueba1.git
+git push -u origin main
+
+
 --
 -- crear ambiente en windows
 --
