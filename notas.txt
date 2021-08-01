@@ -1,5 +1,11 @@
 
+source ../venv/bin/activate
+python manage.py runserver 0.0.0.0:8000
+
+192.168.0.167
+--
 -- crear ambiente en windows
+--
 python get-pip.py
 pip install virtualenv
 virtualenv venv
@@ -20,7 +26,7 @@ python manage.py migrate
 --
 -- Usuario del sistema
 --
-python manage.py createsuperuser --email admin@example.com --username admin
+python manage.py createsuperuser --email admin2@example.com --username admin2
 password 123
 
 cliente1 > nzjQm6ptVDBLKyw
