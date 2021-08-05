@@ -24,8 +24,6 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-
-
 class UserCreate(generics.CreateAPIView):
     permission_classes = [permissions.DjangoModelPermissions]
     permission_classes = ()
@@ -127,9 +125,15 @@ class PromoViewSet(viewsets.ModelViewSet):
 
 
 
-class DispenserViewSet(viewsets.ModelViewSet):
-    queryset = Dispenser.objects.all()
-    serializer_class = DispenserSerializer
+class HorarioViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.DjangoModelPermissions]
+    queryset = Horario.objects.all()
+    serializer_class = HorarioSerializer
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.DjangoModelPermissions]
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
 
 
 

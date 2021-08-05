@@ -15,11 +15,24 @@ python manage.py runserver 0.0.0.0:8000
 echo "# prueba1" >> README.md
 git init
 git add README.md
+
+git add --all
 git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/ezgatrabajo/prueba1.git
 git push -u origin main
 
+
+git add --all
+git commit -m "uso de retrofit2 - cambio estrutura usuarios y perfiles"
+git branch -M main
+git push -u origin main
+
+git clone https://github.com/LionSec/katoolin.git && cp katoolin/katoolin.py /usr/bin/katoolin
+chmod +x /usr/bin/katoolin
+sudo katoolin
+
+sudo katoolin
 
 --
 -- crear ambiente en windows

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 
@@ -19,6 +19,7 @@ class Categoria(models.Model):
 
 class Unidadmedida(models.Model):
     nombre      = models.CharField(max_length=50,  blank=False, null=False)
+    abreviatura = models.CharField(max_length=4,  blank=True, null=True,verbose_name='Abreviatura')
     descripcion = models.CharField(max_length=200, blank=True, null=True)
     def __str__(self):
         return self.nombre
@@ -27,7 +28,7 @@ class Unidadmedida(models.Model):
 class Producto(models.Model):
     nombre         = models.CharField(max_length=50)
     descripcion    = models.CharField(max_length=200, blank=True, null=True)
-    preciounitario = models.DecimalField(default=0, decimal_places=3, max_digits=10, verbose_name='Precio Unitario')
+    precio         = models.DecimalField(default=0, decimal_places=3, max_digits=10, verbose_name='Precio Unitario')
     marca          = models.ForeignKey(Marca, on_delete=models.CASCADE, null=True)
     categoria      = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True)
     codigoexterno  = models.CharField(max_length=50, blank=True, verbose_name='Codigo Externo')
@@ -84,10 +85,10 @@ class Pedidodetalle(models.Model):
 class Parametro(models.Model):
     nombre       = models.CharField(max_length=50)
     descripcion  = models.CharField(max_length=100)
-    valortexto   = models.CharField(max_length=100, blank=True, null=True)
-    valorinteger = models.IntegerField( default=0,blank=True, null=True)
-    valordecimal = models.DecimalField(default=0, decimal_places=3, max_digits=10, blank=True, null=True)
-    valorfecha   = models.DateTimeField('Fecha',blank=True, null=True)
+    valor_texto   = models.CharField(max_length=100, blank=True, null=True)
+    valor_integer = models.IntegerField( default=0,blank=True, null=True)
+    valor_decimal = models.DecimalField(default=0, decimal_places=3, max_digits=10, blank=True, null=True)
+    valor_fecha   = models.DateTimeField('Fecha',blank=True, null=True)
 
     def __str__(self):
         return self.nombre
@@ -120,4 +121,43 @@ class Dispenser(models.Model):
     def __str__(self):
         return self.nombre
 
+class UserProfile(models.Model):
+    user        = models.OneToOneField(User, on_delete=models.CASCADE)
+    nombre      = models.CharField(max_length=25, blank=True)
+    apellido    = models.CharField(max_length=25, blank=True)
+    calle       = models.CharField(max_length=50, blank=True)
+    nro         = models.CharField(max_length=10, blank=True)
+    piso        = models.CharField(max_length=10, blank=True)
+    telefono    = models.CharField(max_length=25, blank=True)
+    contacto    = models.CharField(max_length=40, blank=True)
 
+    def __str__(self):
+        return self.nombre
+
+
+class Horario(models.Model):
+    DIAS   = (
+        (1, 'Lunes'),
+        (2, 'Martes'),
+        (3, 'Miercoles'),
+        (4, 'Jueves'),
+        (5, 'Viernes'),
+        (6, 'Sabado'),
+        (7, 'Domingo')
+    )
+    dia           = models.IntegerField( choices=DIAS)
+    apertura      = models.DateTimeField('Hora Apertura')
+    cierre        = models.DateTimeField('Hora Cierre')
+    observaciones = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        DIAS = (
+            (1, 'Lunes'),
+            (2, 'Martes'),
+            (3, 'Miercoles'),
+            (4, 'Jueves'),
+            (5, 'Viernes'),
+            (6, 'Sabado'),
+            (7, 'Domingo')
+        )
+        return str(self.dia)

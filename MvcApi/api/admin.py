@@ -1,9 +1,13 @@
 from django.contrib import admin
 
 # Register your models here.
+
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
 from django.contrib import admin
-from .models import Categoria, Marca, Producto, Dispenser, Pedido, Unidadmedida, Pedidodetalle, \
-    Parametro, Estado
+from .models import Categoria, Marca, Producto, Pedido, Unidadmedida, Pedidodetalle, \
+    Parametro, Estado, Horario,UserProfile
+
 
 
 class AlbumAdmin(admin.ModelAdmin):
@@ -22,12 +26,12 @@ class MarcaAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion')
 
 class UnidadmedidaAdmin(admin.ModelAdmin):
-    fields = ['nombre', 'descripcion']
-    list_display = ('nombre', 'descripcion')
+    fields = ['nombre','abreviatura', 'descripcion']
+    list_display = ('nombre', 'abreviatura','descripcion')
 
 class ProductoAdmin(admin.ModelAdmin):
     field = (('nombre', 'descripcion'),'preciounitario')
-    list_display = ('nombre', 'descripcion')
+    list_display = ('nombre', 'descripcion','precio','stock')
 
 class PedidodetalleInline(admin.TabularInline):
     model = Pedidodetalle
@@ -62,22 +66,34 @@ class PedidoAdmin(admin.ModelAdmin):
 
 
 class EstadoAdmin(admin.ModelAdmin):
-    #model = Estado
     fields = ['nombre', 'descripcion']
 
 class ParametroAdmin(admin.ModelAdmin):
-    fields = ['nombre', 'descripcion','valortexto','valorinteger' ,'valordecimal', 'valorfecha' ]
+    fields = ['nombre', 'descripcion','valor_texto','valor_integer' ,'valor_decimal', 'valor_fecha' ]
 
-class DispenserAdmin(admin.ModelAdmin):
-    fields = ['nombre', 'descripcion','serie', 'orden']
 
+class HorarioAdmin(admin.ModelAdmin):
+    fields = ['dia', 'apertura','cierre', 'observaciones']
+    list_display = ('id', 'dia','apertura','cierre')
+
+
+class UserProfileInline(admin.StackedInline):
+    model = UserProfile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+
+class UserAdmin(BaseUserAdmin):
+    inlines = [UserProfileInline,]
+
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 admin.site.register(Producto, ProductoAdmin)
 admin.site.register(Pedido, PedidoAdmin)
-
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Marca, MarcaAdmin)
 admin.site.register(Unidadmedida, UnidadmedidaAdmin)
 
 admin.site.register(Estado, EstadoAdmin)
 admin.site.register(Parametro, ParametroAdmin)
-admin.site.register(Dispenser, DispenserAdmin)
+admin.site.register(Horario, HorarioAdmin)
