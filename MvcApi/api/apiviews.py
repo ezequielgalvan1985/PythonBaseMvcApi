@@ -1,9 +1,10 @@
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import action
-from rest_framework import status
+from rest_framework.decorators import action, api_view
+from rest_framework import status, mixins
 from django.contrib.auth import authenticate
 from rest_framework import generics
 from rest_framework import viewsets
@@ -19,10 +20,8 @@ from .models import *
 
 
 #TABLAS DEL SISTEMA
-class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.DjangoModelPermissions]
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+
+
 
 class UserCreate(generics.CreateAPIView):
     permission_classes = [permissions.DjangoModelPermissions]
@@ -44,6 +43,7 @@ class LoginView(APIView):
       return Response({"token":user.auth_token.key})
     else:
       return Response ({"error":"Wrong Credentials"}, status=400)
+
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -138,14 +138,13 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
 
 
-#Ejemplo de ApiView Custom
-class ExampleView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
 
-    def get(self, request, format=None):
-        content = {
-            'user': request.user,  # `django.contrib.auth.User` instance.
-            'auth': request.auth,  # None
-        }
-        return Response(content)
+#Ejemplo de ApiView Custom
+@api_view(['GET'])
+def CurrentUserProfileView(request):
+
+    if request.method == 'GET':
+        queryset = UserProfile.objects.filter(user=request.user)
+        serializer_class = UserProfileSerializer(queryset,many=True)
+        return Response(serializer_class.data)
+

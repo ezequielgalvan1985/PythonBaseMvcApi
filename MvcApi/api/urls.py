@@ -16,9 +16,7 @@ router.register(r'promos', apiviews.PromoViewSet)
 router.register(r'estados', apiviews.EstadoViewSet)
 router.register(r'parametros', apiviews.ParametroViewSet)
 router.register(r'horarios', apiviews.HorarioViewSet)
-router.register(r'users', apiviews.UserViewSet)
 router.register(r'userprofiles', apiviews.UserProfileViewSet)
-
 
 
 urlpatterns = [
@@ -26,6 +24,8 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('user/create/', apiviews.UserCreate.as_view(), name="user_create"),
     path('user/login/', apiviews.LoginView.as_view(), name="user_login"),
-    path('api-token-auth/', views_token.obtain_auth_token)
+    path('api-token-auth/', views_token.obtain_auth_token),
+    path('currentuserprofile/', apiviews.CurrentUserProfileView)
+
 
 ]
