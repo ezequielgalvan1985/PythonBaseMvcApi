@@ -80,7 +80,7 @@ class Pedidodetalle(models.Model):
     cantidad = models.DecimalField(default=0, decimal_places=3, max_digits=10)
     pedido   = models.ForeignKey(Pedido, on_delete=models.CASCADE,related_name='items')
     producto = models.ForeignKey(Producto,  on_delete=models.CASCADE)
-
+    nropote  = models.IntegerField(default=0)
 
 class Parametro(models.Model):
     nombre       = models.CharField(max_length=50)

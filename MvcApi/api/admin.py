@@ -35,7 +35,7 @@ class ProductoAdmin(admin.ModelAdmin):
 
 class PedidodetalleInline(admin.TabularInline):
     model = Pedidodetalle
-    fields = ['cantidad','pedido', 'producto']
+    fields = ['cantidad','pedido', 'producto', 'nropote']
 
 
 class PedidoAdmin(admin.ModelAdmin):
